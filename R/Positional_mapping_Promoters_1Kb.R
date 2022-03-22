@@ -33,6 +33,10 @@ txs <- transcripts(edb, columns = c("tx_id", "tx_biotype",
                                     "tx_id_version", "gc_content",
                                     "gene_name", "gene_id"))
 idx <- match(ids, txs$tx_id_version)
+idx <- na.omit(idx)
+txs_promoter <- txs[idx, ]
+# save(txs_promoter, file = "txs_promoters_annotation.rda")
+
 
 # Overlap credible SNPs with promoter regions.
 olap <- findOverlaps(credranges, promoterranges)
