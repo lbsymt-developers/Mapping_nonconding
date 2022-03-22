@@ -1,3 +1,5 @@
+library(GenomicRanges)
+
 promoter <- read.table("data/gencodev39_promoters1000pb.bed.txt")
 ens <- stringr::str_split(promoter$V4, "_up")
 ens <- sapply(ens, function(x){
@@ -30,6 +32,7 @@ ids <- ens
 txs <- transcripts(edb, columns = c("tx_id", "tx_biotype",
                                     "tx_id_version", "gc_content",
                                     "gene_name", "gene_id"))
+idx <- match(ids, txs$tx_id_version)
 
 # Overlap credible SNPs with promoter regions.
 olap <- findOverlaps(credranges, promoterranges)
