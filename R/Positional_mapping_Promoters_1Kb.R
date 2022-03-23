@@ -20,8 +20,6 @@ genes <- sapply(genes, function(x){
 
 promoter$V1 <- genes
 
-promoterranges <- GRanges(promoter[,1], IRanges(promoter[,2], promoter[,3]), Tx = promoter[,4])
-
 # AHORA CONVERTIMOS A ENSG
 
 library(AnnotationHub)
@@ -36,6 +34,19 @@ idx <- match(ids, txs$tx_id_version)
 idx <- na.omit(idx)
 txs_promoter <- txs[idx, ]
 # save(txs_promoter, file = "txs_promoters_annotation.rda")
+df_txs <- data.frame(txs_promoter)
+
+colnames(promoter)[4] <- "tx_id_version"
+promoters_txs <- dplyr::left_join(promoter, df_txs, "tx_id_version")
+
+promoterranges <- GRanges(promoters_txs[,1],
+                          IRanges(promoters_txs[,2], promoters_txs[,3]),
+                          Tx_id_version = promoters_txs[,4], tx_biotype = promoters_txs$tx_biotype,
+                          gene_name = promoters_txs$gene_name,
+                          gene_id = promoters_txs$gene_id,
+                          tx_id = promoters_txs$tx_id)
+
+# save(promoterranges, file = "data/promoter_ranges.rda")
 
 
 # Overlap credible SNPs with promoter regions.
