@@ -56,6 +56,7 @@ credpromoter <- credranges[queryHits(olap)]
 mcols(credpromoter) <- cbind(mcols(credpromoter), mcols(promoterranges[subjectHits(olap)]))
 # save(credpromoter, file = "data/cred_promoters_GRanges.rda")
 
+load("data/cred_promoters_GRanges.rda")
 df <- data.frame(credpromoter)
 df <- na.omit(df)
 
