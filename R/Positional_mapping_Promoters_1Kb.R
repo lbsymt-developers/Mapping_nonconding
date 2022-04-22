@@ -73,3 +73,6 @@ summary(df$gene_name)
 genes <- df$gene_name
 gen_sel <- genes[genes != ""]
 gen_sel <- gen_sel[!duplicated(gen_sel)]
+
+# dir.create("resultados")
+saveRDS(gen_sel, file = "resultados/genes_snps_promotores.rds")
