@@ -64,6 +64,7 @@ table(df$gene_name)
 summary(df$gene_name)
 
 # Se tienen 56 genes distintos mapeados
+# Hay 273 SNPs no codificantes en 56 genes y 53 pseudogenes y lncRNA
 
 # "https://www.genenames.org/download/custom/"
 # gen_anno <- vroom::vroom("https://www.genenames.org/cgi-bin/download/custom?col=gd_hgnc_id&col=gd_app_sym&col=gd_app_name&col=gd_status&col=gd_prev_sym&col=gd_aliases&col=gd_pub_chrom_map&col=gd_pub_acc_ids&col=gd_pub_refseq_ids&col=gd_pub_ensembl_id&status=Approved&status=Entry%20Withdrawn&hgnc_dbtag=on&order_by=gd_hgnc_id&format=text&submit=submit")
