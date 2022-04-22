@@ -70,3 +70,6 @@ summary(df$gene_name)
 # gen_anno <- gen_anno[!is.na(gen_anno$`Ensembl gene ID`), ]
 # save(gen_anno, file = "data/Gen_Anno.rda")
 
+genes <- df$gene_name
+gen_sel <- genes[genes != ""]
+gen_sel <- gen_sel[!duplicated(gen_sel)]
