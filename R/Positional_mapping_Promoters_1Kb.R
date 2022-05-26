@@ -34,6 +34,7 @@ idx <- match(ids, txs$tx_id_version)
 idx <- na.omit(idx)
 txs_promoter <- txs[idx, ]
 # save(txs_promoter, file = "txs_promoters_annotation.rda")
+load("data/txs_promoters_annotation.rda")
 df_txs <- data.frame(txs_promoter)
 
 colnames(promoter)[4] <- "tx_id_version"
@@ -44,7 +45,8 @@ promoterranges <- GRanges(promoters_txs[,1],
                           Tx_id_version = promoters_txs[,4], tx_biotype = promoters_txs$tx_biotype,
                           gene_name = promoters_txs$gene_name,
                           gene_id = promoters_txs$gene_id,
-                          tx_id = promoters_txs$tx_id)
+                          tx_id = promoters_txs$tx_id,
+                          promoter = IRanges(promoters_txs[,2], promoters_txs[,3]))
 
 # save(promoterranges, file = "data/promoter_ranges.rda")
 
@@ -54,7 +56,7 @@ load("data/AD_credibleSNP.rda")
 olap <- findOverlaps(credranges, promoterranges)
 credpromoter <- credranges[queryHits(olap)]
 mcols(credpromoter) <- cbind(mcols(credpromoter), mcols(promoterranges[subjectHits(olap)]))
-# save(credpromoter, file = "data/cred_promoters_GRanges.rda")
+save(credpromoter, file = "data/cred_promoters_GRanges.rda")
 
 load("data/cred_promoters_GRanges.rda")
 df <- data.frame(credpromoter)
