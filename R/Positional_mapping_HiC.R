@@ -2,14 +2,16 @@
 # Load Hi-C dataset and generate a GRange object.
 library(GenomicRanges)
 hic <- read.table("data/Promoter-anchored_chromatin_loops.bed", skip=1)
-promoterranges <- load("data/promoter_ranges.rda")
+load("data/promoter_ranges.rda")
 colnames(hic) <- c("chr", "TSS_start", "TSS_end", "Enhancer_start", "Enhancer_end")
 hicranges <- GRanges(hic$chr, IRanges(hic$TSS_start, hic$TSS_end), enhancer=hic$Enhancer_start)
-olap <- findOverlaps(hicranges, promoterranges)
+olap <- GenomicRanges::findOverlaps(hicranges, promoterranges)
 hicpromoter <- hicranges[queryHits(olap)]
 mcols(hicpromoter) <- cbind(mcols(hicpromoter), mcols(promoterranges[subjectHits(olap)]))
 hicenhancer <- GRanges(seqnames(hicpromoter), IRanges(hicpromoter$enhancer, hicpromoter$enhancer+10000),
-                       gene=hicpromoter$gene_name)
+                       gene=hicpromoter$gene_name,
+                       TSS = ranges(hicpromoter),
+                       Enhancer = IRanges(hicpromoter$enhancer, hicpromoter$enhancer+10000))
 
 # saveRDS(hicenhancer, "resultados/hicenhancer_granges.rda")
 
