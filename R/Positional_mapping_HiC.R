@@ -11,7 +11,8 @@ mcols(hicpromoter) <- cbind(mcols(hicpromoter), mcols(promoterranges[subjectHits
 hicenhancer <- GRanges(seqnames(hicpromoter), IRanges(hicpromoter$enhancer, hicpromoter$enhancer+10000),
                        gene=hicpromoter$gene_name,
                        TSS = ranges(hicpromoter),
-                       Enhancer = IRanges(hicpromoter$enhancer, hicpromoter$enhancer+10000))
+                       Enhancer = IRanges(hicpromoter$enhancer, hicpromoter$enhancer+10000),
+                       Promoter = hicpromoter$promoter)
 
 # saveRDS(hicenhancer, "resultados/hicenhancer_granges.rda")
 
